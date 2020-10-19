@@ -4,7 +4,6 @@
 #include <iostream>
 #include <sstream>
 #include <cassert>
-#include <cstring>
 
 #define FIRST_ALLOC_SIZE 5
 #define REALLOC_SIZE 2
