@@ -18,10 +18,10 @@ struct Point {
 
 void run(std::istream &is, std::ostream &os) {
   int count;
-  std::cin >> count;
+  is >> count;
   auto *pointsArray = new Point[count];
   for (int i = 0; i < count; ++i) {
-    std::cin >> pointsArray[i].x >> pointsArray[i].y;
+    is >> pointsArray[i].x >> pointsArray[i].y;
   }
 
   double square = 0;
@@ -30,7 +30,7 @@ void run(std::istream &is, std::ostream &os) {
     square += (pointsArray[i].y + pointsArray[j].y) / 2.0 * (pointsArray[i].x - pointsArray[j].x);
   }
 
-  std::cout << std::abs(square);
+  os << std::abs(square);
 
   delete[] pointsArray;
 }
