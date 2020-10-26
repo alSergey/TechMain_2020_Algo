@@ -5,10 +5,14 @@
 #include <sstream>
 #include <cassert>
 
+int randPivot(int l, int r) {
+  return l == r ? l : std::rand() % (r - l) + l;
+}
+
 template<typename Comparator>
 int partition(int array[], int l, int r, Comparator cmp = Comparator()) {
   int i = r;
-  int pivot = (r + l) / 2;
+  int pivot = randPivot(l, r);
   std::swap(array[l], array[pivot]);
   pivot = l;
 
