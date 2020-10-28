@@ -11,3 +11,6 @@ add_executable(m4_1 main4_1.cpp)
 add_executable(m5_3 main5_3.cpp)
 add_executable(m6_4 main6_4.cpp)
 add_executable(m7_1 main7_1.cpp)
+
+add_executable(r2_1 rk1_2.cpp)
+add_executable(r2_2 rk2_2.cpp)
