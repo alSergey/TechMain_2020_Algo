@@ -8,4 +8,9 @@ ADD_EXECUTABLE(m1_2 main1_2.cpp)
 ADD_EXECUTABLE(m2_3 main2_3.cpp)
 ADD_EXECUTABLE(m3_2 main3_2.cpp)
 ADD_EXECUTABLE(m4_2 main4_2.cpp)
+
 ADD_EXECUTABLE(m5 main5.cpp)
+
+ADD_EXECUTABLE(r2_1 rk2_1.cpp)
+ADD_EXECUTABLE(r2_3 rk2_3.cpp)
+ADD_EXECUTABLE(r2_4 rk2_4.cpp)
