@@ -19,8 +19,8 @@
 
 template<typename T>
 struct Node {
-  explicit Node(T val, int priority = 0)
-      : key(val),
+  explicit Node(T key, int priority = 0)
+      : key(key),
         priority(priority),
         left(nullptr),
         right(nullptr) {
@@ -105,9 +105,9 @@ class Treap {
     destructor(root);
   }
 
-  void Add(T &val, int priority) {
+  void Add(T &key, int priority) {
     if (!root) {
-      root = new Node<T>(val, priority);
+      root = new Node<T>(key, priority);
       return;
     }
 
@@ -115,22 +115,68 @@ class Treap {
     Node<T> *last = nullptr;
     while (current && cmp(priority, current->priority)) {
       last = current;
-      current = cmp(val, current->key) ? current->left : current->right;
+      current = cmp(key, current->key) ? current->left : current->right;
     }
 
-    auto newNode = new Node<T>(val, priority);
-    split(current, val, newNode->left, newNode->right);
+    auto newNode = new Node<T>(key, priority);
+    split(current, key, newNode->left, newNode->right);
 
     if (!last) {
       root = newNode;
       return;
     }
 
-    if (cmp(val, last->key)) {
+    if (cmp(key, last->key)) {
       last->left = newNode;
     } else {
       last->right = newNode;
     }
+  }
+
+  bool Has(const T &key) {
+    if (!root) {
+      return false;
+    }
+
+    auto current = root;
+    while (current) {
+      if (cmp(key, current->key)) {
+        current = current->left;
+      } else if (cmp(current->key, key)) {
+        current = current->right;
+      } else {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  void Del(T &key) {
+    if (!root) {
+      return;
+    }
+
+    auto current = root;
+    Node<T> *last = nullptr;
+    while (cmp(key, current->key) || cmp(key, current->key)) {
+      last = current;
+      current = cmp(key, current->key) ? current->left : current->right;
+    }
+
+    if (!last) {
+      delete []root;
+      root = nullptr;
+      return;
+    }
+
+    if (cmp(key, current->key)) {
+      last->left = merge(current->left, current->right);
+    } else {
+      last->right = merge(current->left, current->right);
+    }
+
+    delete []current;
   }
 
   Node<T> *getRoot() {
@@ -153,6 +199,19 @@ class Treap {
     }
   }
 
+  Node<T> *merge(Node<T> *left, Node<T> *right) {
+    if (!left || !right) {
+      return !left ? right : left;
+    }
+    if (left->priority > right->priority) {
+      left->right = merge(left->right, right);
+      return left;
+    } else {
+      right->left = merge(left, right->left);
+      return right;
+    }
+  }
+
   Comparator cmp;
   Node<T> *root;
 };
@@ -168,9 +227,9 @@ class BinaryTree {
     destructor(root);
   }
 
-  void Add(T &val) {
+  void Add(T &key) {
     if (!root) {
-      root = new Node<T>(val);
+      root = new Node<T>(key);
       return;
     }
 
@@ -178,13 +237,13 @@ class BinaryTree {
     Node<T> *last = nullptr;
     while (current) {
       last = current;
-      current = cmp(val, current->key) ? current->left : current->right;
+      current = cmp(key, current->key) ? current->left : current->right;
     }
 
-    if (cmp(val, last->key)) {
-      last->left = new Node<T>(val);
+    if (cmp(key, last->key)) {
+      last->left = new Node<T>(key);
     } else {
-      last->right = new Node<T>(val);
+      last->right = new Node<T>(key);
     }
   }
 
@@ -203,11 +262,11 @@ void run(std::istream &is, std::ostream &os) {
   BinaryTree<int> binaryTree;
   Treap<int> treap;
   for (size_t i = 0; i < n; ++i) {
-    int val;
+    int key;
     int priority;
-    is >> val >> priority;
-    binaryTree.Add(val);
-    treap.Add(val, priority);
+    is >> key >> priority;
+    binaryTree.Add(key);
+    treap.Add(key, priority);
   }
 
   os << levelOrder(treap.getRoot()) - levelOrder(binaryTree.getRoot()) << std::endl;

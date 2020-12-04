@@ -153,7 +153,6 @@ void run(std::istream &is, std::ostream &os) {
       }
     }
   }
-
 }
 
 void test() {
@@ -448,8 +447,8 @@ void test() {
 }
 
 int main() {
-//  test();
-  run(std::cin, std::cout);
+  test();
+//  run(std::cin, std::cout);
 
   return 0;
 }

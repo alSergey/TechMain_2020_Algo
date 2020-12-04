@@ -35,9 +35,9 @@ class BinaryTree {
     PostOrder(false);
   }
 
-  void Add(T &val) {
+  void Add(const T &key) {
     if (!root) {
-      root = new Node<T>(val);
+      root = new Node<T>(key);
       return;
     }
 
@@ -45,14 +45,33 @@ class BinaryTree {
     Node<T> *last = nullptr;
     while (current) {
       last = current;
-      current = cmp(val, current->key) ? current->left : current->right;
+      current = cmp(key, current->key) ? current->left : current->right;
     }
 
-    if (cmp(val, last->key)) {
-      last->left = new Node<T>(val);
+    if (cmp(key, last->key)) {
+      last->left = new Node<T>(key);
     } else {
-      last->right = new Node<T>(val);
+      last->right = new Node<T>(key);
     }
+  }
+
+  bool Has(const T &key) {
+    if (!root) {
+      return false;
+    }
+
+    auto current = root;
+    while (current) {
+      if (cmp(key, current->key)) {
+        current = current->left;
+      } else if (cmp(current->key, key)) {
+        current = current->right;
+      } else {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   void PostOrder(bool print = true) {
